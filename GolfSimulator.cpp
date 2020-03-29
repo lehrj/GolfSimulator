@@ -39,7 +39,7 @@ int main()
                 isInputValid = true;
                 if (isInputTrue == true)
                 {
-                    pSwing->ReadInSwingValues();
+                    pSwing->InputSwingValues();
                 }
             }
         }
