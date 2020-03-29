@@ -367,7 +367,7 @@ void GolfSwing::ReadInSwingValues()
         errorList.push_back(errorString);
     }
 
-    if (ballPlacement < m_minBallPlacementAngle || ballPlacement > m_minBallPlacementAngle)
+    if (ballPlacement < m_minBallPlacementAngle || ballPlacement > m_maxBallPlacementAngle)
     {
         isInputValid = false;
         std::string errorString = "3 ballPlacement ";
@@ -381,7 +381,7 @@ void GolfSwing::ReadInSwingValues()
         errorList.push_back(errorString);
     }
 
-    if (clubCoR < m_minClubCoR || clubCoR > m_minClubCoR)
+    if (clubCoR < m_minClubCoR || clubCoR > m_maxClubCoR)
     {
         isInputValid = false;
         std::string errorString = "5 clubCoR";
