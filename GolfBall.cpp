@@ -104,7 +104,7 @@ void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
 
     //  Compute the post-collision velocity of the ball
     //  perpendicular to the line of action.
-    double vbn = (2.0 / 7.0) * clubMass * vcn / (clubMass + ballMass); // 2/7 if from impact behavior on the club face
+    double vbn = (1.0 - m_faceRoll) * clubMass * vcn / (clubMass + ballMass);
 
     //  Compute the initial spin rate assuming ball is
     //  rolling without sliding.
@@ -200,7 +200,7 @@ void GolfBall::PrintFlightData(Vector4d aFlightData)
 
 void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)
 {
-    double distanceXinYards = aLandingData.GetX() * 1.0936;
+    double distanceXinYards = aLandingData.GetX() * 1.0936; // 1.0936 is the number of yards in a meter
     printf("\nFinal Flight Results ================================================================================\n");
     printf("Flight Time          =  %lf (seconds) \n", aLandingData.GetW());
     printf("Carry Distance       =  %lf (meters) (%lf yards) \n", aLandingData.GetX(), distanceXinYards);
@@ -253,6 +253,7 @@ void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aDs)
     free(pDq2);
     free(pDq3);
     free(pDq4);
+    UpdateSpinRate(aDs);
 }
 
 void GolfBall::SetDefaultBallValues(Environment* pEnviron)
@@ -281,5 +282,10 @@ void GolfBall::SetDefaultBallValues(Environment* pEnviron)
     m_ball.windVx = pEnviron->GetWindX();
     m_ball.windVy = pEnviron->GetWindY();
     m_ball.windVz = pEnviron->GetWindZ();  
+}
+
+void GolfBall::UpdateSpinRate(double aTimeDelta)
+{
+    m_ball.omega *= 1.0 - (aTimeDelta * m_spinRateDecay);
 }
 
