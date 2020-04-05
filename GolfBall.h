@@ -28,7 +28,7 @@ struct SpinProjectile
 class GolfBall
 {
 public:
-    Vector4d CalculateProjectileData(Vector4d aSwingInput);
+    //Vector4d CalculateProjectileData(Vector4d aSwingInput);
     double CalculateImpactTime(double aTime1, double aTime2, double aHeight1, double aHeight2);
     void FireProjectile(Vector4d aSwingInput, Environment* pEnviron);
     void LandProjectile(Environment* pEnviron);
@@ -43,6 +43,6 @@ public:
     void SetDefaultBallValues(Environment* pEnviron);
 private:
     SpinProjectile m_ball;
-
+    const double m_faceRoll = 0.7142857142857143; // <== 5/7, represents the ball moving up the club face to impart spin
     double m_timeStep;
 };

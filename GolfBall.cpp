@@ -81,111 +81,6 @@ void GolfBall::LaunchProjectile()
     }
 }
 
-Vector4d GolfBall::CalculateProjectileData(Vector4d aSwingInput)
-{
-    //  Convert the loft angle from degrees to radians and
-    //  assign values to some convenience variables.
-    double loft = Utility::ToRadians(aSwingInput.GetY());
-    double cosL = cos(loft);
-    double sinL = sin(loft);
-
-    //  Calculate the pre-collision velocities normal
-    //  and parallel to the line of action.
-    double velocity = aSwingInput.GetX();
-    double vcp = cosL * velocity;
-    double vcn = -sinL * velocity;
-
-    //  Compute the post-collision velocity of the ball
-    //  along the line of action.
-    double ballMass = m_ball.mass;
-    double clubMass = aSwingInput.GetZ();
-    double e = aSwingInput.GetW(); //  coefficient of restitution of club face striking the ball
-    double vbp = (1.0 + e) * clubMass * vcp / (clubMass + ballMass);
-
-    //  Compute the post-collision velocity of the ball
-    //  perpendicular to the line of action.
-    double vbn = (2.0 / 7.0) * clubMass * vcn / (clubMass + ballMass); // 2/7 if from impact behavior on the club face
-
-    //  Compute the initial spin rate assuming ball is
-    //  rolling without sliding.
-    double radius = m_ball.radius;
-    double omega = (5.0 / 7.0) * vcn / radius; // 5/7 represents the ball moving up the club face to impart spin
-
-    std::cout << "omega = " << omega << std::endl;
-    std::cout << "vcn = " << vcn << std::endl;
-    std::cout << "radius = " << radius << std::endl;
-    std::cout << "m_ball.radius = " << m_ball.radius << std::endl;
-
-    //  Rotate post-collision ball velocities back into 
-    //  standard Cartesian frame of reference. Because the
-    //  line-of-action was in the xy plane, the z-velocity
-    //  is zero.
-    double vx0 = cosL * vbp - sinL * vbn;
-    double vy0 = sinL * vbp + cosL * vbn;
-    double vz0 = 0.0;
-
-    printf("vx0=%lf  vy0=%lf  vz0=%lf  omega=%lf\n", vx0, vy0, vz0, omega);
-
-    //  Load the initial ball velocities into the 
-    //  SpinProjectile struct.
-    m_ball.omega = omega;
-    m_ball.q[0] = vx0;   //  vx 
-    m_ball.q[2] = vy0;   //  vy 
-    m_ball.q[4] = vz0;   //  vz 
-
-    // Fly ball on an upward trajectory until it stops climbing
-    Vector4d flightData;
-    double dt = m_timeStep;
-    double maxHeight = m_ball.launchHeight;
-    double time = 0.0;
-    double x = m_ball.q[1];
-    double y = m_ball.q[3];
-    bool isBallAscending = true;
-    while (isBallAscending == true)
-    {
-        ProjectileRungeKutta4(&m_ball, dt);
-        flightData.SetAll(m_ball.q[1], m_ball.q[3], m_ball.q[2], m_ball.flightTime);
-        PrintFlightData(flightData);
-        if (m_ball.q[2] < 0.0)
-        {
-            maxHeight = m_ball.q[3];
-            isBallAscending = false;
-        }
-    }
-    // Check to verify landing area height can be reached. If it cannot the shot is treated as if it is out of play so x = 0.0;
-    if (maxHeight + m_ball.launchHeight < m_ball.landingHeight)
-    {
-        printf("Ball has landed out of play, ball does not reach height of landing area!\n");
-        flightData.SetX(0.0);
-        x = 0.0;
-    }
-    else
-    {
-        double previousY = flightData.GetY();
-        double previousTime = flightData.GetW();
-        //  Calculate ball decent path until it reaches landing area height
-        while (m_ball.q[3] + m_ball.launchHeight >= m_ball.landingHeight)
-        {
-            previousY = flightData.GetY();
-            previousTime = flightData.GetW();
-            ProjectileRungeKutta4(&m_ball, dt);
-            flightData.SetAll(m_ball.q[1], m_ball.q[3], m_ball.q[2], m_ball.flightTime);
-            PrintFlightData(flightData);
-            time = m_ball.flightTime;
-            y = m_ball.q[3];
-        }
-        double rollBackTime = CalculateImpactTime(previousTime, time, previousY, y);
-        ProjectileRungeKutta4(&m_ball, -rollBackTime);
-        flightData.SetAll(m_ball.q[1], m_ball.q[3], m_ball.q[2], m_ball.flightTime);
-        PrintFlightData(flightData);
-
-        PrintLandingData(flightData, maxHeight);
-    }
-
-    Vector4d impactData{ m_ball.q[1], m_ball.q[3], m_ball.q[0], m_ball.q[2] };
-    return impactData;
-}
-
 void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
 {
     //  Convert the loft angle from degrees to radians and
@@ -214,7 +109,7 @@ void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
     //  Compute the initial spin rate assuming ball is
     //  rolling without sliding.
     double radius = m_ball.radius;
-    double omega = (5.0 / 7.0) * vcn / radius; // 5/7 represents the ball moving up the club face to impart spin
+    double omega = m_faceRoll * vcn / radius;
 
     std::cout << "omega = " << omega << std::endl;
     std::cout << "vcn = " << vcn << std::endl;
