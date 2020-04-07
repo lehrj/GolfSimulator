@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Environment.h"
 #include "Utility.h"
 #include "Vector4d.h"
@@ -16,6 +17,7 @@ struct SpinProjectile
     int numEqns;  // number of equations to solve
     double omega;  //  angular velocity, m/s
     double q[6];
+    std::vector<double> newQ[6];
     double rx;     //  spin axis vector component
     double ry;     //  spin axis vector component
     double rz;     //  spin axis vector component
@@ -28,7 +30,6 @@ struct SpinProjectile
 class GolfBall
 {
 public:
-    //Vector4d CalculateProjectileData(Vector4d aSwingInput);
     double CalculateImpactTime(double aTime1, double aTime2, double aHeight1, double aHeight2);
     void FireProjectile(Vector4d aSwingInput, Environment* pEnviron);
     void LandProjectile(Environment* pEnviron);

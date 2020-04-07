@@ -4,6 +4,7 @@
 #include <memory>
 #include "GolfBall.h"
 #include "Vector4d.h"
+#include <vector>
 
 double GolfBall::CalculateImpactTime(double aTime1, double aTime2, double aHeight1, double aHeight2)
 {
@@ -134,64 +135,6 @@ void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
     m_ball.q[4] = vz0;   //  vz 
 }
 
-//*************************************************************
-//  This method loads the right-hand sides for the projectile ODEs
-//*************************************************************
-void GolfBall::ProjectileRightHandSide(struct SpinProjectile *pBall,
-    double *q, double *deltaQ, double ds,
-    double qScale, double *dq)
-{
-    //  Compute the intermediate values of the 
-    //  dependent variables.
-    double newQ[6]; // intermediate dependent variable values.
-    for (int i = 0; i < 6; ++i)
-    {
-        newQ[i] = q[i] + qScale * deltaQ[i];
-    }
-
-    //  Declare some convenience variables representing
-    //  the intermediate values of velocity.
-    double vx = newQ[0];
-    double vy = newQ[2];
-    double vz = newQ[4];   
-
-    //  Compute the apparent velocities bz subtracting
-    //  the wind velocity components from the projectile
-    //  velocity components.
-    double vax = vx - pBall->windVx;
-    double vay = vy - pBall->windVy;
-    double vaz = vz - pBall->windVz;
-
-    //  Compute the apparent velocity magnitude. The 1.0e-8 term
-    //  ensures there won't be a divide bz yero later on
-    //  if all of the velocity components are zero.
-    double va = sqrt(vax * vax + vay * vay + vaz * vaz) + 1.0e-8;
-
-    //  Compute the total drag force.
-    double Fd = 0.5 * pBall->airDensity * pBall->area * pBall->dragCoefficient * va * va;
-    double Fdx = -Fd * vax / va;
-    double Fdy = -Fd * vay / va;
-    double Fdz = -Fd * vaz / va;  
-
-    //  Compute the velocity magnitude
-    double v = sqrt(vx * vx + vy * vy + vz * vz) + 1.0e-8;
-
-    //  Evaluate the Magnus force terms.
-    double Cl = -0.05 + sqrt(0.0025 + 0.36 * fabs(pBall->radius * pBall->omega / v));  // this equation gives a more accurate representation to fit experimental data than Cl = (radius * omega)/v
-    double Fm = 0.5 * pBall->airDensity * pBall->area * Cl * v * v;
-    double Fmx = (vz * pBall->ry - pBall->rz * vy) * Fm / v;  
-    double Fmy = (vx * pBall->rz - pBall->rx * vz) * Fm / v; 
-    double Fmz = -(vx * pBall->ry - pBall->rx * vy) * Fm / v; 
-
-    //  Compute right-hand side values.
-    dq[0] = ds * (Fdx + Fmx) / pBall->mass;
-    dq[1] = ds * vx;
-    dq[2] = ds * (pBall->gravity + (Fdy + Fmy) / pBall->mass);
-    dq[3] = ds * vy;
-    dq[4] = ds * (Fdz + Fmz) / pBall->mass;
-    dq[5] = ds * vz;
-}
-
 void GolfBall::PrintFlightData(Vector4d aFlightData)
 {
     printf("Time(sec) = %lf, x(m) = %lf, y(m) = %lf, delta x(m/s) = %lf, delta y(m/s) = %lf \n", 
@@ -212,30 +155,94 @@ void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)
     printf("Landing Velocity z   =  %lf (m/s) \n\n", m_ball.q[4]);
 }
 
+//*************************************************************
+//  This method loads the right-hand sides for the projectile ODEs
+//*************************************************************
+void GolfBall::ProjectileRightHandSide(struct SpinProjectile *pBall,
+    double *q, double *deltaQ, double ds,
+    double qScale, double *dq)
+{
+    //  Compute the intermediate values of the 
+    //  dependent variables.
+    double newQ[6]; // intermediate dependent variable values.
+    for (int i = 0; i < 6; ++i)
+    {
+        newQ[i] = q[i] + qScale * deltaQ[i];
+    }
+
+    //  Declare some convenience variables representing
+    //  the intermediate values of velocity.
+    double vx = newQ[0];
+    double vy = newQ[2];
+    double vz = newQ[4];
+
+    //  Compute the apparent velocities bz subtracting
+    //  the wind velocity components from the projectile
+    //  velocity components.
+    double vax = vx - pBall->windVx;
+    double vay = vy - pBall->windVy;
+    double vaz = vz - pBall->windVz;
+
+    //  Compute the apparent velocity magnitude. The 1.0e-8 term
+    //  ensures there won't be a divide bz yero later on
+    //  if all of the velocity components are zero.
+    double va = sqrt(vax * vax + vay * vay + vaz * vaz) + 1.0e-8;
+
+    //  Compute the total drag force.
+    double Fd = 0.5 * pBall->airDensity * pBall->area * pBall->dragCoefficient * va * va;
+    double Fdx = -Fd * vax / va;
+    double Fdy = -Fd * vay / va;
+    double Fdz = -Fd * vaz / va;
+
+    //  Compute the velocity magnitude
+    double v = sqrt(vx * vx + vy * vy + vz * vz) + 1.0e-8;
+
+    //  Evaluate the Magnus force terms.
+    double Cl = -0.05 + sqrt(0.0025 + 0.36 * fabs(pBall->radius * pBall->omega / v));  // this equation gives a more accurate representation to fit experimental data than Cl = (radius * omega)/v
+    double Fm = 0.5 * pBall->airDensity * pBall->area * Cl * v * v;
+    double Fmx = (vz * pBall->ry - pBall->rz * vy) * Fm / v;
+    double Fmy = (vx * pBall->rz - pBall->rx * vz) * Fm / v;
+    double Fmz = -(vx * pBall->ry - pBall->rx * vy) * Fm / v;
+
+    //  Compute right-hand side values.
+    dq[0] = ds * (Fdx + Fmx) / pBall->mass;
+    dq[1] = ds * vx;
+    dq[2] = ds * (pBall->gravity + (Fdy + Fmy) / pBall->mass);
+    dq[3] = ds * vy;
+    dq[4] = ds * (Fdz + Fmz) / pBall->mass;
+    dq[5] = ds * vz;
+}
+
 void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aDs)
 {
-    //  Allocate memory for the arrays.
     double numEqns = pBall->numEqns;
-    double *pQ = (double *)malloc(numEqns * sizeof(double));
-    double *pDq1 = (double *)malloc(numEqns * sizeof(double));
-    double *pDq2 = (double *)malloc(numEqns * sizeof(double));
-    double *pDq3 = (double *)malloc(numEqns * sizeof(double));
-    double *pDq4 = (double *)malloc(numEqns * sizeof(double));
 
+    //  Allocate memory for the arrays.    
+    std::vector<double> vecQ(numEqns);
+    std::vector<double> vecDq1(numEqns);
+    std::vector<double> vecDq2(numEqns);
+    std::vector<double> vecDq3(numEqns);
+    std::vector<double> vecDq4(numEqns);
+    double *pQzero = vecQ.data();
+    double *pQone = vecDq1.data();
+    double *pQtwo = vecDq2.data();
+    double *pQthree = vecDq3.data();
+    double *pQfour = vecDq4.data();
+    
     //  Retrieve the current values of the dependent
     //  and independent variables.
     for (int i = 0; i < numEqns; ++i)
     {
-        pQ[i] = pBall->q[i];
+        pQzero[i] = pBall->q[i];     
     }
 
     // Compute the four Runge-Kutta steps, The return 
     // value of projectileRightHandSide method is an array
-    // of delta-q values for each of the four steps.
-    ProjectileRightHandSide(pBall, pQ, pQ, aDs, 0.0, pDq1);
-    ProjectileRightHandSide(pBall, pQ, pDq1, aDs, 0.5, pDq2);
-    ProjectileRightHandSide(pBall, pQ, pDq2, aDs, 0.5, pDq3);
-    ProjectileRightHandSide(pBall, pQ, pDq3, aDs, 1.0, pDq4);
+    // of delta-q values for each of the four steps.   
+    ProjectileRightHandSide(pBall, pQzero, pQzero, aDs, 0.0, pQone);
+    ProjectileRightHandSide(pBall, pQzero, pQone, aDs, 0.5, pQtwo);
+    ProjectileRightHandSide(pBall, pQzero, pQtwo, aDs, 0.5, pQthree);
+    ProjectileRightHandSide(pBall, pQzero, pQthree, aDs, 1.0, pQfour);
 
     //  Update the dependent and independent variable values
     //  at the new dependent variable location and store the
@@ -243,16 +250,22 @@ void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aDs)
     pBall->flightTime = pBall->flightTime + aDs;
     for (int i = 0; i < numEqns; ++i)
     {
-        pQ[i] = pQ[i] + (pDq1[i] + 2.0 * pDq2[i] + 2.0 * pDq3[i] + pDq4[i]) / 6.0;
-        pBall->q[i] = pQ[i];
+        pQzero[i] = pQzero[i] + (pQone[i] + 2.0 * pQtwo[i] + 2.0 * pQthree[i] + pQfour[i]) / numEqns;
+        pBall->q[i] = pQzero[i];
     }
 
-    //  Free up memory
-    free(pQ);
-    free(pDq1);
-    free(pDq2);
-    free(pDq3);
-    free(pDq4);
+    //  Free up memory   
+    pQzero = nullptr;
+    pQone = nullptr;
+    pQtwo = nullptr;
+    pQthree = nullptr;
+    pQfour = nullptr;
+    delete pQzero;
+    delete pQone;
+    delete pQtwo;
+    delete pQthree;
+    delete pQfour;
+
     UpdateSpinRate(aDs);
 }
 

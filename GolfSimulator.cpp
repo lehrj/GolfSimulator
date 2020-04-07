@@ -22,45 +22,49 @@ int main()
         
         std::cout << "Welcome to GolfSimulator!\n";
         
-        bool isInputValid = false;
-        bool isInputTrue;
-        while (isInputValid == false)
+        bool isInDevMode = false;
+        if (isInDevMode == false) // Toggle to skip input options and run on defaults to speed up testing
         {
-            std::cout << "Would you like to input swing values? (1 or 0) : ";
-            std::cin >> isInputTrue;
-            if (std::cin.fail())
+            bool isInputValid = false;
+            bool isInputTrue;
+            while (isInputValid == false)
             {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Error, invalid input, please try again \n";
-            }
-            else
-            {
-                isInputValid = true;
-                if (isInputTrue == true)
+                std::cout << "Would you like to input swing values? (1 or 0) : ";
+                std::cin >> isInputTrue;
+                if (std::cin.fail())
                 {
-                    pSwing->InputSwingValues();
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Error, invalid input, please try again \n";
+                }
+                else
+                {
+                    isInputValid = true;
+                    if (isInputTrue == true)
+                    {
+                        pSwing->InputSwingValues();
+                    }
                 }
             }
-        }
 
-        isInputValid = false;
-        while (isInputValid == false)
-        {
-            std::cout << "Would you like to read swing values from file? (1 or 0) : ";
-            std::cin >> isInputTrue;
-            if (std::cin.fail())
+            isInputValid = false;
+            while (isInputValid == false)
             {
-                std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                std::cout << "Error, invalid input, please try again \n";
-            }
-            else
-            {
-                isInputValid = true;
-                if (isInputTrue == true)
+                std::cout << "Would you like to read swing values from file? (1 or 0) : ";
+                std::cin >> isInputTrue;
+                if (std::cin.fail())
                 {
-                    pSwing->ReadInSwingValues();
+                    std::cin.clear();
+                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                    std::cout << "Error, invalid input, please try again \n";
+                }
+                else
+                {
+                    isInputValid = true;
+                    if (isInputTrue == true)
+                    {
+                        pSwing->ReadInSwingValues();
+                    }
                 }
             }
         }
