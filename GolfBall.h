@@ -17,7 +17,6 @@ struct SpinProjectile
     int numEqns;  // number of equations to solve
     double omega;  //  angular velocity, m/s
     double q[6];
-    std::vector<double> newQ[6];
     double rx;     //  spin axis vector component
     double ry;     //  spin axis vector component
     double rz;     //  spin axis vector component

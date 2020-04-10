@@ -213,7 +213,7 @@ void GolfBall::ProjectileRightHandSide(struct SpinProjectile *pBall,
     dq[5] = ds * vz;
 }
 
-void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aDs)
+void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aTimeDelta)
 {
     double numEqns = pBall->numEqns;
 
@@ -223,50 +223,50 @@ void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aDs)
     std::vector<double> vecDq2(numEqns);
     std::vector<double> vecDq3(numEqns);
     std::vector<double> vecDq4(numEqns);
-    double *pQzero = vecQ.data();
-    double *pQone = vecDq1.data();
-    double *pQtwo = vecDq2.data();
-    double *pQthree = vecDq3.data();
-    double *pQfour = vecDq4.data();
+    double *pQ = vecQ.data();
+    double *pQ1 = vecDq1.data();
+    double *pQ2 = vecDq2.data();
+    double *pQ3 = vecDq3.data();
+    double *pQ4 = vecDq4.data();
     
     //  Retrieve the current values of the dependent
     //  and independent variables.
     for (int i = 0; i < numEqns; ++i)
     {
-        pQzero[i] = pBall->q[i];     
+        pQ[i] = pBall->q[i];     
     }
 
     // Compute the four Runge-Kutta steps, The return 
     // value of projectileRightHandSide method is an array
     // of delta-q values for each of the four steps.   
-    ProjectileRightHandSide(pBall, pQzero, pQzero, aDs, 0.0, pQone);
-    ProjectileRightHandSide(pBall, pQzero, pQone, aDs, 0.5, pQtwo);
-    ProjectileRightHandSide(pBall, pQzero, pQtwo, aDs, 0.5, pQthree);
-    ProjectileRightHandSide(pBall, pQzero, pQthree, aDs, 1.0, pQfour);
+    ProjectileRightHandSide(pBall, pQ, pQ, aTimeDelta, 0.0, pQ1);
+    ProjectileRightHandSide(pBall, pQ, pQ1, aTimeDelta, 0.5, pQ2);
+    ProjectileRightHandSide(pBall, pQ, pQ2, aTimeDelta, 0.5, pQ3);
+    ProjectileRightHandSide(pBall, pQ, pQ3, aTimeDelta, 1.0, pQ4);
 
     //  Update the dependent and independent variable values
     //  at the new dependent variable location and store the
     //  values in the ODE object arrays.
-    pBall->flightTime = pBall->flightTime + aDs;
+    pBall->flightTime = pBall->flightTime + aTimeDelta;
     for (int i = 0; i < numEqns; ++i)
     {
-        pQzero[i] = pQzero[i] + (pQone[i] + 2.0 * pQtwo[i] + 2.0 * pQthree[i] + pQfour[i]) / numEqns;
-        pBall->q[i] = pQzero[i];
+        pQ[i] = pQ[i] + (pQ1[i] + 2.0 * pQ2[i] + 2.0 * pQ3[i] + pQ4[i]) / numEqns;
+        pBall->q[i] = pQ[i];
     }
 
     //  Free up memory   
-    pQzero = nullptr;
-    pQone = nullptr;
-    pQtwo = nullptr;
-    pQthree = nullptr;
-    pQfour = nullptr;
-    delete pQzero;
-    delete pQone;
-    delete pQtwo;
-    delete pQthree;
-    delete pQfour;
+    pQ = nullptr;
+    pQ1 = nullptr;
+    pQ2 = nullptr;
+    pQ3 = nullptr;
+    pQ4 = nullptr;
+    delete pQ;
+    delete pQ1;
+    delete pQ2;
+    delete pQ3;
+    delete pQ4;
 
-    UpdateSpinRate(aDs);
+    UpdateSpinRate(aTimeDelta);
 }
 
 void GolfBall::SetDefaultBallValues(Environment* pEnviron)
