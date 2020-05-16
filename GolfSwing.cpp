@@ -142,7 +142,64 @@ double GolfSwing::ComputeBetaDotDot(void)
     return (G - C * m_alpha_dotdot) / D;
 }
 
-void GolfSwing::InputSwingValues()
+void GolfSwing::InputSwingValuesBasic()
+{
+    bool isInputValid = false;
+    while (isInputValid == false)
+    {
+        std::cout << "Input Club Angle in degress between " << m_minClubAngle << " and " << m_maxClubAngle << ": ";
+        double clubAngle;
+        std::cin >> clubAngle;
+        if (clubAngle >= m_minClubAngle && clubAngle <= m_maxClubAngle)
+        {
+            isInputValid = true;
+            SetClubAngle(clubAngle);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+
+    isInputValid = false;
+    while (isInputValid == false)
+    {
+        std::cout << "Input Back Swing Percentage in % between " << m_minBackSwingPercentage << " and " << m_maxBackSwingPercentage << ": ";
+        double backSwingPercentage;
+        std::cin >> backSwingPercentage;
+        if (backSwingPercentage >= m_minBackSwingPercentage && backSwingPercentage <= m_maxBackSwingPercentage)
+        {
+            isInputValid = true;
+            SetBackSwingPercentage(backSwingPercentage);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+
+    isInputValid = false;
+    while (isInputValid == false)
+    {
+        std::cout << "Input Ball Placement Angle in degrees between " << m_minBallPlacementAngle << " and " << m_maxBallPlacementAngle << ": ";
+        double ballPlacement;
+        std::cin >> ballPlacement;
+        if (ballPlacement >= m_minBallPlacementAngle && ballPlacement <= m_maxBallPlacementAngle)
+        {
+            isInputValid = true;
+            SetBallPlacementAngle(ballPlacement);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+
+    std::cout << "Updating swing input data... \n";
+    PrintSwingValues();
+}
+
+void GolfSwing::InputSwingValuesVerbose()
 {
     bool isInputValid = false;
     while (isInputValid == false)
@@ -330,6 +387,18 @@ void GolfSwing::InputSwingValues()
             std::cout << "Input Error, please try again \n";
         }
     }
+}
+
+void GolfSwing::PrintSwingValues()
+{
+    printf("====== Current Swing Values ====== \n");
+    printf("Arm Length           : %f \n", m_armLength);  
+    printf("Ball Placement Angle : %f \n", m_ballPlacementAngle);
+    printf("Club Face Angle      : %f \n", m_clubAngle);
+    printf("Club Length          : %f \n", m_clubLength);
+    printf("Club Mass            : %f \n", m_clubMass);
+    printf("Swing Power          : %f \n", m_backSwingPercentage);
+    printf("================================= \n");
 }
 
 void GolfSwing::ReadInSwingValues()

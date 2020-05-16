@@ -12,8 +12,10 @@ public:
     Vector4d CalculateLaunchVector(void);
     double ComputeAlphaDotDot(void);
     double ComputeBetaDotDot(void);
-    const double GetBackSwingPercentage() { return m_backSwingPercentage; };
-    void InputSwingValues();
+    const double GetBackSwingPercentage() { return m_backSwingPercentage; };   
+    void InputSwingValuesBasic();
+    void InputSwingValuesVerbose();
+    void PrintSwingValues();
     void ReadInSwingValues();
     void SetArmLength(double aLength);
     void SetBackSwingPercentage(double aPercentage);

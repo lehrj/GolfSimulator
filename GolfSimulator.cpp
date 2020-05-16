@@ -1,4 +1,4 @@
-// GolfSimulation 
+// GolfSimulator
 //
 //
 #include "Environment.h"
@@ -42,11 +42,12 @@ int main()
                     isInputValid = true;
                     if (isInputTrue == true)
                     {
-                        pSwing->InputSwingValues();
+                        pSwing->InputSwingValuesBasic();
                     }
                 }
             }
-
+            
+            /*
             isInputValid = false;
             while (isInputValid == false)
             {
@@ -67,6 +68,7 @@ int main()
                     }
                 }
             }
+            */
         }
 
         Vector4d swingVector = pSwing->CalculateLaunchVector();
