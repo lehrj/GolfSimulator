@@ -12,17 +12,20 @@ int main()
     bool isRunSimulation = true;
     while (isRunSimulation == true)
     {
+        std::cout << "Welcome to GolfSimulator!\n";
         Environment* pEnvironment = new Environment();
         pEnvironment->SetDefaultEnvironment();   
+
+        std::cout << "Inputing Environmental Data" << std::endl;
+        pEnvironment->InputEnvironmentDataBasic();
+
         GolfSwing* pSwing = new GolfSwing();
         pSwing->SetDefaultSwingValues(pEnvironment->GetGravity());
         pSwing->UpdateGolfSwingValues();
         GolfBall* pBall = new GolfBall();
         pBall->SetDefaultBallValues(pEnvironment);
         
-        std::cout << "Welcome to GolfSimulator!\n";
-        
-        bool isInDevMode = false;
+        bool isInDevMode = true;
         if (isInDevMode == false) // Toggle to skip input options and run on defaults to speed up testing
         {
             bool isInputValid = false;

@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="GolfBall.cpp" />
+    <ClCompile Include="GolfClub.cpp" />
     <ClCompile Include="GolfSimulator.cpp" />
     <ClCompile Include="GolfSwing.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Environment.h" />
     <ClInclude Include="GolfBall.h" />
+    <ClInclude Include="GolfClub.h" />
     <ClInclude Include="GolfSwing.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="Vector4d.h" />

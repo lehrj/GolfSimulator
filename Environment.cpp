@@ -127,6 +127,82 @@ void Environment::InputEnvironmentData()
     }
 }
 
+void Environment::InputEnvironmentDataBasic()
+{
+    bool isInputValid = false;
+    /*
+    while (isInputValid == false)
+    {
+        double airDensity;
+        std::cout << "Input value for Air Density in kg/m^3 between " << m_minAirDensity << " and " << m_maxAirDensity << ": ";
+        std::cin >> airDensity;
+        if (airDensity >= m_minAirDensity && airDensity <= m_maxAirDensity)
+        {
+            isInputValid = true;
+            SetAirDensity(m_airDensity);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+    */
+
+    isInputValid = false;
+    while (isInputValid == false)
+    {
+        double windX;
+        std::cout << "Input value for Wind X in m/s between " << -m_minMaxWind << " and " << m_minMaxWind << ": ";
+        std::cout << "Input value for Wind velocity in the direction of the swing in m/s between " << -m_minMaxWind << " and " << m_minMaxWind << ": ";
+        std::cin >> windX;
+        if (windX >= -m_minMaxWind && windX <= m_minMaxWind)
+        {
+            isInputValid = true;
+            SetWindX(windX);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+
+    isInputValid = false;
+    while (isInputValid == false)
+    {
+        double windY;
+        std::cout << "Input value for Wind Y in m/s between " << -m_minMaxWind << " and " << m_minMaxWind << ": ";
+        std::cin >> windY;
+        if (windY >= -m_minMaxWind && windY <= m_minMaxWind)
+        {
+            isInputValid = true;
+            SetWindY(windY);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+
+    isInputValid = false;
+    while (isInputValid == false)
+    {
+        double windZ;
+        std::cout << "Input value for Wind Z in m/s between " << -m_minMaxWind << " and " << m_minMaxWind << ": ";
+        std::cout << "Input value for crosswind in m/s (positive for wind moving left to right, negative for wind moving right to left) between " 
+            << -m_minMaxWind << " and " << m_minMaxWind << ": ";
+        std::cin >> windZ;
+        if (windZ >= -m_minMaxWind && windZ <= m_minMaxWind)
+        {
+            isInputValid = true;
+            SetWindZ(windZ);
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+}
+
 void Environment::ReadInEnvironmentData()
 {
     double airDensity;
@@ -222,9 +298,9 @@ void Environment::SetDefaultEnvironment()
 {
     m_gravity = -9.8;
     m_airDensity = 1.225;
-    m_windX = 0.0;
-    m_windY = 0.0;
-    m_windZ = 0.0;
+    m_windX = 10.0;
+    m_windY = 20.0;
+    m_windZ = 30.0;
     m_launchHeight = 0.0;
     m_landingHeight = 0.0;
 
@@ -255,17 +331,17 @@ void Environment::SetLauchHeight(double launchHeight)
     m_launchHeight = launchHeight;
 }
 
-void Environment::SetWindX(double windX)
+void Environment::SetWindX(const double& aWindX)
 {
-    m_windX = windX;
+    m_windX = aWindX;
 }
 
-void Environment::SetWindY(double windY)
+void Environment::SetWindY(const double& aWindY)
 {
-    m_windY = windY;
+    m_windY = aWindY;
 }
 
-void Environment::SetWindZ(double windZ)
+void Environment::SetWindZ(const double& aWindZ)
 {
-    m_windZ = windZ;
+    m_windZ = aWindZ;
 }

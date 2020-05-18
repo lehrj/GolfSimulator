@@ -139,6 +139,7 @@ void GolfBall::PrintFlightData(Vector4d aFlightData)
 {
     printf("Time(sec) = %lf, x(m) = %lf, y(m) = %lf, delta x(m/s) = %lf, delta y(m/s) = %lf \n", 
         aFlightData.GetW(), aFlightData.GetX(), aFlightData.GetY(), m_ball.q[0], aFlightData.GetZ());
+    printf("z = %lf \n", m_ball.q[5]);
 }
 
 void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)

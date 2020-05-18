@@ -12,6 +12,7 @@ public:
     const double GetWindZ() { return m_windZ; };
     
     void InputEnvironmentData();
+    void InputEnvironmentDataBasic();
     void ReadInEnvironmentData();
 
     void SetAirDensity(double density);
@@ -19,18 +20,18 @@ public:
     void SetGravity(double gravity);
     void SetLandingHeight(double landingHeight);
     void SetLauchHeight(double launchHeight);
-    void SetWindX(double windX);
-    void SetWindY(double windY);
-    void SetWindZ(double windZ);
+    void SetWindX(const double& aWindX);
+    void SetWindY(const double& aWindY);
+    void SetWindZ(const double& aWindZ);
 
 private:
-    double m_airDensity;
-    double m_gravity;
-    double m_landingHeight;
-    double m_launchHeight;
-    double m_windX;
-    double m_windY;
-    double m_windZ;
+    double m_airDensity;        // in kg/m^3
+    double m_gravity;           // in m/s^2
+    double m_landingHeight;     // in meters
+    double m_launchHeight;      // in meters
+    double m_windX;             // in m/s
+    double m_windY;             // in m/s
+    double m_windZ;             // in m/s
 
     // variables for bounce and roll functionality not yet implemented
     double m_landingFriction;

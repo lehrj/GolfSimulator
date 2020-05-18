@@ -17,6 +17,14 @@ struct SpinProjectile
     int numEqns;  // number of equations to solve
     double omega;  //  angular velocity, m/s
     double q[6];
+                /*
+                q[0] = vx
+                q[1] = x
+                q[2] = vy
+                q[3] = y
+                q[4] = vz
+                q[5] = z
+                */
     double rx;     //  spin axis vector component
     double ry;     //  spin axis vector component
     double rz;     //  spin axis vector component
