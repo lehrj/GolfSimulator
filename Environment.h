@@ -15,11 +15,11 @@ public:
     void InputEnvironmentDataBasic();
     void ReadInEnvironmentData();
 
-    void SetAirDensity(double density);
+    void SetAirDensity(double aDensity);
     void SetDefaultEnvironment();
-    void SetGravity(double gravity);
-    void SetLandingHeight(double landingHeight);
-    void SetLauchHeight(double launchHeight);
+    void SetGravity(double aGravity);
+    void SetLandingHeight(double aLandingHeight);
+    void SetLauchHeight(double aLaunchHeight);
     void SetWindX(const double& aWindX);
     void SetWindY(const double& aWindY);
     void SetWindZ(const double& aWindZ);

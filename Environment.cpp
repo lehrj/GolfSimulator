@@ -311,24 +311,24 @@ void Environment::SetDefaultEnvironment()
     m_landingZslope = 0.0;
 }
 
-void Environment::SetAirDensity(double density)
+void Environment::SetAirDensity(double aDensity)
 {
-    m_airDensity = density;
+    m_airDensity = aDensity;
 }
 
-void Environment::SetGravity(double gravity)
+void Environment::SetGravity(double aGravity)
 {
-    m_gravity = gravity;
+    m_gravity = aGravity;
 }
 
-void Environment::SetLandingHeight(double landingHeight)
+void Environment::SetLandingHeight(double aLandingHeight)
 {
-    m_landingHeight = landingHeight;
+    m_landingHeight = aLandingHeight;
 }
 
-void Environment::SetLauchHeight(double launchHeight)
+void Environment::SetLauchHeight(double aLaunchHeight)
 {
-    m_launchHeight = launchHeight;
+    m_launchHeight = aLaunchHeight;
 }
 
 void Environment::SetWindX(const double& aWindX)
