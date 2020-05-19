@@ -215,8 +215,7 @@ void GolfBall::ProjectileRightHandSide(struct SpinProjectile *pBall,
 
 void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aTimeDelta)
 {
-    double numEqns = pBall->numEqns;
-
+    int numEqns = pBall->numEqns;
     //  Allocate memory for the arrays.    
     std::vector<double> vecQ(numEqns);
     std::vector<double> vecDq1(numEqns);
