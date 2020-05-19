@@ -46,7 +46,7 @@ void GolfBall::LaunchProjectile()
     {
         ProjectileRungeKutta4(&m_ball, dt);
         flightData.SetAll(m_ball.q[1], m_ball.q[3], m_ball.q[2], m_ball.flightTime);
-        PrintFlightData(flightData);
+        PrintFlightData();
         if (m_ball.q[2] < 0.0)
         {
             maxHeight = m_ball.q[3];
@@ -71,7 +71,7 @@ void GolfBall::LaunchProjectile()
             previousTime = flightData.GetW();
             ProjectileRungeKutta4(&m_ball, dt);
             flightData.SetAll(m_ball.q[1], m_ball.q[3], m_ball.q[2], m_ball.flightTime);
-            PrintFlightData(flightData);
+            PrintFlightData();
             time = m_ball.flightTime;
             y = m_ball.q[3];
         }
@@ -135,11 +135,10 @@ void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
     m_ball.q[4] = vz0;   //  vz 
 }
 
-void GolfBall::PrintFlightData(Vector4d aFlightData)
+void GolfBall::PrintFlightData()
 {
-    printf("Time(sec) = %lf, x(m) = %lf, y(m) = %lf, delta x(m/s) = %lf, delta y(m/s) = %lf \n", 
-        aFlightData.GetW(), aFlightData.GetX(), aFlightData.GetY(), m_ball.q[0], aFlightData.GetZ());
-    printf("z = %lf \n", m_ball.q[5]);
+    printf("Time(sec) = %lf, x(m) = %lf, y(m) = %lf, z(m) = %lf, delta x(m/s) = %lf, delta y(m/s) = %lf \n",
+        m_ball.flightTime, m_ball.q[1], m_ball.q[3], m_ball.q[5], m_ball.q[0], m_ball.q[2]);
 }
 
 void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)
@@ -282,7 +281,7 @@ void GolfBall::SetDefaultBallValues(Environment* pEnviron)
     m_ball.landingHeight = pEnviron->GetLandingHeight();
     m_ball.radius = 0.02135;
     m_ball.mass = 0.0459;
-    m_ball.numEqns = 6;
+    m_ball.numEqns = 6; 
     m_ball.omega = 0.0;
     m_ball.q[0] = 0.0;   //  vx = 0.0
     m_ball.q[1] = 0.0;   //  x  = 0.0
@@ -292,7 +291,7 @@ void GolfBall::SetDefaultBallValues(Environment* pEnviron)
     m_ball.q[3] = 0.0;   //  y  = 0.0
     m_ball.rx = 0.0;
     m_ball.ry = 0.0;
-    m_ball.rz = 1.0; // ball will only be spinning about the z axis
+    m_ball.rz = 1.0; // ball will only be spinning about the z axis, this will need to be adjusted if/when imperfect impact mechanics added for hooks and slices
     m_ball.windVx = pEnviron->GetWindX();
     m_ball.windVy = pEnviron->GetWindY();
     m_ball.windVz = pEnviron->GetWindZ();  

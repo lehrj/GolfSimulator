@@ -18,12 +18,12 @@ struct SpinProjectile
     double omega;  //  angular velocity, m/s
     double q[6];
                 /*
-                q[0] = vx
-                q[1] = x
-                q[2] = vy
-                q[3] = y
-                q[4] = vz
-                q[5] = z
+                q[0] = vx, velocity
+                q[1] = x position
+                q[2] = vy, velocity
+                q[3] = y position
+                q[4] = vz, velocity
+                q[5] = z position
                 */
     double rx;     //  spin axis vector component
     double ry;     //  spin axis vector component
@@ -41,7 +41,7 @@ public:
     void FireProjectile(Vector4d aSwingInput, Environment* pEnviron);
     void LandProjectile(Environment* pEnviron);
     void LaunchProjectile();
-    void PrintFlightData(Vector4d aFlightData);
+    void PrintFlightData();
     void PrintLandingData(Vector4d aLandingData, double aMaxY);
     void PrepProjectileLaunch(Vector4d aSwingInput);
     void ProjectileRightHandSide(struct SpinProjectile *projectile,

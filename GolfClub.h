@@ -14,7 +14,6 @@ private:
     // new
     std::string m_clubName;
     
-
     double m_clubAngle;         // in degrees
     double m_clubBalancePoint;
     double m_clubCoR; // club face coefficiant of restitution, aka club spring face, current USGA rules limit this to .830 in tournemnt play

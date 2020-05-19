@@ -298,9 +298,9 @@ void Environment::SetDefaultEnvironment()
 {
     m_gravity = -9.8;
     m_airDensity = 1.225;
-    m_windX = 10.0;
-    m_windY = 20.0;
-    m_windZ = 30.0;
+    m_windX = 0.0;
+    m_windY = 0.0;
+    m_windZ = 0.0;
     m_launchHeight = 0.0;
     m_landingHeight = 0.0;
 
