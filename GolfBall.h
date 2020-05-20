@@ -55,5 +55,5 @@ private:
     SpinProjectile m_ball;
     const double m_faceRoll = 0.7142857142857143; // <== 5/7, represents the ball moving up the club face to impart spin
     const double m_spinRateDecay = 0.04; // Rate at which the spinrate slows over time, using value from Trackman launch monitors of 4% per second
-    double m_timeStep;
+    float m_timeStep;
 };

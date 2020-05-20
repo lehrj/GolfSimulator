@@ -85,7 +85,7 @@ void GolfBall::LaunchProjectile()
 void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
 {
     //  Convert the loft angle from degrees to radians and
-//  assign values to some convenience variables.
+    //  assign values to some convenience variables.
     double loft = Utility::ToRadians(aSwingInput.GetY());
     double cosL = cos(loft);
     double sinL = sin(loft);
@@ -137,22 +137,23 @@ void GolfBall::PrepProjectileLaunch(Vector4d aSwingInput)
 
 void GolfBall::PrintFlightData()
 {
-    printf("Time(sec) = %lf, x(m) = %lf, y(m) = %lf, z(m) = %lf, delta x(m/s) = %lf, delta y(m/s) = %lf \n",
+    printf("Time = %.1f sec, X = %f m, Y = %f m, Z = %f m, delta X = %f m/s, delta Y = %f m/s\n",
         m_ball.flightTime, m_ball.q[1], m_ball.q[3], m_ball.q[5], m_ball.q[0], m_ball.q[2]);
 }
 
 void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)
 {
     double distanceXinYards = aLandingData.GetX() * 1.0936; // 1.0936 is the number of yards in a meter
-    printf("\nFinal Flight Results ================================================================================\n");
-    printf("Flight Time          =  %lf (seconds) \n", aLandingData.GetW());
-    printf("Carry Distance       =  %lf (meters) (%lf yards) \n", aLandingData.GetX(), distanceXinYards);
-    printf("Landing Height       =  %lf (meters) \n", aLandingData.GetY());
-    printf("Max Height           =  %lf (meters) \n", aMaxY);
-    printf("Landing Position z   =  %lf (meters) \n", m_ball.q[5]);
-    printf("Landing Velocity x   =  %lf (m/s) \n", m_ball.q[0]);
-    printf("Landing Velocity y   = %lf (m/s) \n", aLandingData.GetZ());
-    printf("Landing Velocity z   =  %lf (m/s) \n\n", m_ball.q[4]);
+    printf("================================== Final Flight Results ====================================\n");
+    printf(" Flight Time                                       : %g (seconds) \n", aLandingData.GetW());
+    printf(" Carry Distance                                    : %g (meters) (%g yards) \n", aLandingData.GetX(), distanceXinYards);
+    printf(" Landing Height                                    : %g (meters) \n", aLandingData.GetY());
+    printf(" Max Height                                        : %g (meters) \n", aMaxY);
+    printf(" Landing Position z                                : %g (meters) \n", m_ball.q[5]);
+    printf(" Landing Velocity x                                : %g (m/s) \n", m_ball.q[0]);
+    printf(" Landing Velocity y                                : %g (m/s) \n", aLandingData.GetZ());
+    printf(" Landing Velocity z                                : %g (m/s) \n", m_ball.q[4]);
+    printf("============================================================================================\n");
 }
 
 //*************************************************************
@@ -270,7 +271,7 @@ void GolfBall::ProjectileRungeKutta4(struct SpinProjectile *pBall, double aTimeD
 
 void GolfBall::SetDefaultBallValues(Environment* pEnviron)
 {
-    m_timeStep = 0.1;
+    m_timeStep = 0.1f;
     m_ball.airDensity = pEnviron->GetAirDensity();
     m_ball.area = 0.001432;
     m_ball.dragCoefficient = 0.22;

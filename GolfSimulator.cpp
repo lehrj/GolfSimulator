@@ -1,6 +1,7 @@
 // GolfSimulator
 //
-//
+//  
+
 #include "Environment.h"
 #include "GolfBall.h"
 #include "GolfSwing.h"
@@ -25,6 +26,7 @@ int main()
             bool isInputTrue;
             while (isInputValid == false)
             {
+                pEnvironment->PrintEnvironmentData();
                 std::cout << "Would you like to input environment values? (1 or 0) : ";
                 std::cin >> isInputTrue;
                 if (std::cin.fail())
@@ -39,6 +41,8 @@ int main()
                     if (isInputTrue == true)
                     {
                         pEnvironment->InputEnvironmentDataBasic();
+                        pEnvironment->PrintEnvironmentData();
+                        isInputValid = false;  // allow users to edit their inputs
                     }
                 }
             }
@@ -46,6 +50,7 @@ int main()
             isInputValid = false;
             while (isInputValid == false)
             {
+                pSwing->PrintSwingInputData();
                 std::cout << "Would you like to input swing values? (1 or 0) : ";
                 std::cin >> isInputTrue;
                 if (std::cin.fail())
@@ -60,7 +65,9 @@ int main()
                     if (isInputTrue == true)
                     {
                         pSwing->InputSwingValuesBasic();
-                    }
+                        pSwing->PrintSwingInputData();
+                        isInputValid = false; // allow users to edit their inputs
+                    }   
                 }
             }
         }

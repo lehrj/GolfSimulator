@@ -13,6 +13,7 @@ public:
     
     void InputEnvironmentData();
     void InputEnvironmentDataBasic();
+    void PrintEnvironmentData();
     void ReadInEnvironmentData();
 
     void SetAirDensity(double aDensity);

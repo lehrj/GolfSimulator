@@ -130,7 +130,7 @@ void Environment::InputEnvironmentData()
 void Environment::InputEnvironmentDataBasic()
 {
     bool isInputValid = false;
-    /*
+    
     while (isInputValid == false)
     {
         double airDensity;
@@ -146,7 +146,6 @@ void Environment::InputEnvironmentDataBasic()
             std::cout << "Input Error, please try again \n";
         }
     }
-    */
 
     isInputValid = false;
     while (isInputValid == false)
@@ -201,6 +200,19 @@ void Environment::InputEnvironmentDataBasic()
             std::cout << "Input Error, please try again \n";
         }
     }
+}
+
+void Environment::PrintEnvironmentData()
+{
+    printf("===================================== Environment Data =====================================\n");
+    printf(" Air Density                                       : %g  kg/m^3 \n", m_airDensity);
+    printf(" Gravity                                           : %g m/s^2 \n", m_gravity);
+    printf(" Landing Height                                    : %g  m \n", m_landingHeight);
+    printf(" Launch Height                                     : %g  m \n", m_launchHeight);
+    printf(" Wind Velocity X (parallel to shot direction)      : %g  m/s \n", m_windX);
+    printf(" Wind Velocity Y (vertical direction)              : %g  m/s \n", m_windY);
+    printf(" Wind Velocity Z (perpendicular to shot direction) : %g  m/s \n", m_windZ);
+    printf("============================================================================================\n");
 }
 
 void Environment::ReadInEnvironmentData()

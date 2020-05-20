@@ -15,7 +15,8 @@ public:
     const double GetBackSwingPercentage() { return m_backSwingPercentage; };   
     void InputSwingValuesBasic();
     void InputSwingValuesVerbose();
-    void PrintSwingValues();
+    void PrintSwingInputData();
+    void PrintSwingMechanics(const double aClubVelocity, const double aTime);
     void ReadInSwingValues();
     void SetArmLength(double aLength);
     void SetBackSwingPercentage(double aPercentage);

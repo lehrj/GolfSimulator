@@ -31,16 +31,7 @@ Vector4d GolfSwing::CalculateLaunchVector(void)
     double launchAngle = 0.0;
     bool isVcFound = false;
 
-    std::cout << " Initial values \n";
-    std::cout << " Time                                                               = " << time << std::endl;
-    std::cout << " DEGREES(theta) Angel between arm rod and vertical axis             = " << Utility::ToDegrees(m_theta) << std::endl;
-    std::cout << " DEGREES(alpha) Arm Rod angle sweep from initial backswing position = " << Utility::ToDegrees(m_alpha) << std::endl;
-    std::cout << " DEGREES(beta)  Wrist cock angle                                    = " << Utility::ToDegrees(m_beta) << std::endl;
-    //std::cout << " DEGREES(phi) = theta + beta;                                       = " << DEGREES(phi) << std::endl;
-    std::cout << " DEGREES(phi) = theta + beta;                                       = " << Utility::ToDegrees(m_theta + m_beta) << std::endl;
-    std::cout << " Vc, club head velecity                                             = " << Vc << std::endl;
-    std::cout << "End initial values \n";
-    std::cout << "====================================================================\n";
+    PrintSwingMechanics(Vc, time);
 
     for (int i = 0; i < 200; i++)
     {
@@ -99,14 +90,7 @@ Vector4d GolfSwing::CalculateLaunchVector(void)
         {
             if (isVcFound == false)
             {
-                std::cout << " Swing Impact Results" << std::endl;
-                std::cout << " Time                                                               = " << time << std::endl;
-                std::cout << " DEGREES(theta) Angel between arm rod and vertical axis             = " << Utility::ToDegrees(m_theta) << std::endl;
-                std::cout << " DEGREES(alpha) Arm Rod angle sweep from initial backswing position = " << Utility::ToDegrees(m_alpha) << std::endl;
-                std::cout << " DEGREES(beta)  Wrist cock angle                                    = " << Utility::ToDegrees(m_beta) << std::endl;
-                std::cout << " DEGREES(phi) = theta + beta;                                       = " << Utility::ToDegrees(phi) << std::endl;
-                std::cout << " Vc, club head velecity                                             = " << Vc << std::endl;
-                std::cout << "====================================================================\n";
+                PrintSwingMechanics(Vc, time);
 
                 velocityCapture = Vc;
                 isVcFound = true;
@@ -196,7 +180,7 @@ void GolfSwing::InputSwingValuesBasic()
     }
 
     std::cout << "Updating swing input data... \n";
-    PrintSwingValues();
+    PrintSwingInputData();
 }
 
 void GolfSwing::InputSwingValuesVerbose()
@@ -389,16 +373,30 @@ void GolfSwing::InputSwingValuesVerbose()
     }
 }
 
-void GolfSwing::PrintSwingValues()
+void GolfSwing::PrintSwingInputData()
 {
-    printf("====== Current Swing Values ====== \n");
-    printf("Arm Length           : %f \n", m_armLength);  
-    printf("Ball Placement Angle : %f \n", m_ballPlacementAngle);
-    printf("Club Face Angle      : %f \n", m_clubAngle);
-    printf("Club Length          : %f \n", m_clubLength);
-    printf("Club Mass            : %f \n", m_clubMass);
-    printf("Swing Power          : %f \n", m_backSwingPercentage);
-    printf("================================= \n");
+    printf("======================================= Swing Values =======================================\n");
+    printf(" Arm Length                                        : %g m \n", m_armLength);  
+    printf(" Ball Placement Angle                              : %g degrees \n", m_ballPlacementAngle);
+    printf(" Club Face Angle                                   : %g degrees\n", m_clubAngle);
+    printf(" Club Length                                       : %g m \n", m_clubLength);
+    printf(" Club Mass                                         : %g kg \n", m_clubMass);
+    printf(" Swing Power                                       : %g percent \n", m_backSwingPercentage);
+    printf("============================================================================================\n");
+}
+
+void GolfSwing::PrintSwingMechanics(const double aClubVelocity, const double aTime)
+{
+    double phiInDegrees = Utility::ToDegrees(m_theta + m_beta);
+    printf("==================================== Swing Mechanics =======================================\n");
+    printf(" Time                                                         : %g sec \n", aTime);
+    printf(" Theta (angle betwen arm rod and verticle axis)               : %g degrees \n", Utility::ToDegrees(m_theta));
+    printf(" Alpha (arm Rod angle sweep from initial backswing position)  : %g degrees \n", Utility::ToDegrees(m_alpha));
+    printf(" Beta (wrist cock angle                                       : %g degrees \n", Utility::ToDegrees(m_beta));
+    printf(" Phi (theta + beta)                                           : %g degrees \n", phiInDegrees);
+    printf(" Club Head Velocity                                           : %g m/s \n", aClubVelocity);
+    printf(" Club Face Angle at Moment                                    : %g degrees \n", m_clubAngle - phiInDegrees);
+    printf("============================================================================================\n");
 }
 
 void GolfSwing::ReadInSwingValues()
