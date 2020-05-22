@@ -14,14 +14,14 @@ void GolfBag::BuildBag()
 {
     m_bag.clear();
     m_bag.resize(m_bagSize);
-    // Club data modeled off of Ping G400 driver, G400 woods, and G irons
+    // Club data modeled off of Ping G400 series driver, woods, and hybrid, G irons, and Karsten TR B60 putter, along with best guesses to fill in data gaps
     int i = 0;
     m_bag[i].clubName = "Driver";
     m_bag[i].clubAngle = 10.0;
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78; 
-    m_bag[i].clubLength = 1.1;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubLength = 1.16205;
+    m_bag[i].clubMass = 0.330;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint; // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m 
     ++i;
@@ -46,11 +46,11 @@ void GolfBag::BuildBag()
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
 
-    m_bag[i].clubName = "Hybrid";
-    m_bag[i].clubAngle = 17.5;
+    m_bag[i].clubName = "3 Hybrid";
+    m_bag[i].clubAngle = 19.0;
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
-    m_bag[i].clubLength = 1.0668;
+    m_bag[i].clubLength = 1.02235;
     m_bag[i].clubMass = 0.4;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
@@ -81,7 +81,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.955675;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.41;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -91,7 +91,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.9398;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.42;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -101,7 +101,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.9271;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.43;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -111,7 +111,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.9144;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.44;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -121,7 +121,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.9017;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.45;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -131,7 +131,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.9017;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.45;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -141,7 +141,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.89535;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.45;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
@@ -151,9 +151,20 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 0.889;
-    m_bag[i].clubMass = 0.4;
+    m_bag[i].clubMass = 0.45;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
+    ++i
+    
+    m_bag[i].clubName = "Putter";
+    m_bag[i].clubAngle = 3.0;
+    m_bag[i].clubBalancePoint = 0.75;
+    m_bag[i].clubCoR = 0.78;
+    m_bag[i].clubLength = 0.889;
+    m_bag[i].clubMass = 0.345;
+    m_bag[i].clubMassMoI = 0.08;
+    m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
+    ++i;
     */
     m_bag[i].clubName = "Default";
     m_bag[i].clubAngle = 25.0;
