@@ -139,6 +139,9 @@ void GolfBall::PrintFlightData()
 {
     printf("Time = %.1f sec, X = %f m, Y = %f m, Z = %f m, delta X = %f m/s, delta Y = %f m/s\n",
         m_ball.flightTime, m_ball.q[1], m_ball.q[3], m_ball.q[5], m_ball.q[0], m_ball.q[2]);
+    
+    m_xVals.push_back(m_ball.q[1]);
+    m_yVals.push_back(m_ball.q[3]);
 }
 
 void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)

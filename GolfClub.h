@@ -1,14 +1,17 @@
 #pragma once
 #include <string>
+#include <vector>
 
 struct GolfBag
 {
-};
+    //std::vector<GolfClub> m_theBag;
 
+};
 
 class GolfClub
 {
 public:
+    void BuildBag();
 
 private:
     // new
@@ -31,4 +34,5 @@ private:
     const double m_maxClubLength = 5.0;
     const double m_minClubMass = 0.0;
     const double m_maxClubMass = 10.0;
+    const int m_maxNumberOfClubs = 14;
 };

@@ -9,10 +9,12 @@
 GolfSwing::GolfSwing()
 {
     //this->SetDefaultSwingValues(9.8);
+    m_pBag = new GolfBag();
 }
 
 GolfSwing::~GolfSwing()
 {
+    delete m_pBag;
 }
 
 Vector4d GolfSwing::CalculateLaunchVector(void)
@@ -128,6 +130,9 @@ double GolfSwing::ComputeBetaDotDot(void)
 
 void GolfSwing::InputSwingValuesBasic()
 {
+    SelectClub();
+
+    /*
     bool isInputValid = false;
     while (isInputValid == false)
     {
@@ -144,7 +149,9 @@ void GolfSwing::InputSwingValuesBasic()
             std::cout << "Input Error, please try again \n";
         }
     }
+    */
 
+    bool isInputValid = false;
     isInputValid = false;
     while (isInputValid == false)
     {
@@ -180,7 +187,6 @@ void GolfSwing::InputSwingValuesBasic()
     }
 
     std::cout << "Updating swing input data... \n";
-    PrintSwingInputData();
 }
 
 void GolfSwing::InputSwingValuesVerbose()
@@ -525,6 +531,29 @@ void GolfSwing::ReadInSwingValues()
     }
 }
 
+void GolfSwing::SelectClub()
+{
+    m_pBag->PrintClubList();
+
+    bool isInputValid = false;
+    while (isInputValid == false)
+    {
+        int input;
+        printf("Please Select Club by Number : ");
+        std::cin >> input;
+        if (input >= 0 && input < m_pBag->GetClubCount())
+        {
+            isInputValid = true;
+            m_club = m_pBag->GetClub(input); 
+            UpdateClubData();
+        }
+        else
+        {
+            std::cout << "Input Error, please try again \n";
+        }
+    }
+}
+
 void GolfSwing::SetArmLength(double aLength)
 {
     m_armLength = aLength;
@@ -621,6 +650,16 @@ void GolfSwing::SetQbeta(double aQbeta)
     m_Qbeta = aQbeta;
 }
 
+void GolfSwing::UpdateClubData()
+{
+    m_clubAngle = m_club.clubAngle;
+    m_clubBalancePoint = m_club.clubBalancePoint;
+    m_clubCoR = m_club.clubCoR;
+    m_clubFirstMoment = m_club.clubFirstMoment;
+    m_clubLength = m_club.clubLength;
+    m_clubMass = m_club.clubMass;
+    m_clubMassMoI = m_club.clubMassMoI;
+}
 void GolfSwing::UpdateGolfSwingValues()
 {
     m_clubFirstMoment = m_clubMass * m_clubLength * m_clubBalancePoint; // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m

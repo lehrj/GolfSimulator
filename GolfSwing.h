@@ -1,7 +1,9 @@
 #pragma once
 #include "Environment.h"
+#include "GolfBag.h"
 #include "Utility.h"
 #include "Vector4d.h"
+
 
 class GolfSwing 
 {
@@ -31,6 +33,9 @@ public:
     void SetQbeta(double aQbeta);
     void SetShoulderAccel(double aShoulderAccel); 
     void UpdateGolfSwingValues();  
+
+    void SelectClub();
+    void UpdateClubData();
 
 private:
     double m_alpha; // Angle swept by arm rod from initial backswing position in radians
@@ -84,4 +89,7 @@ private:
     const double m_maxQalpha = 100.0;
     const double m_minQbeta = -0.01;
     const double m_maxQbeta = 100;
+
+    GolfBag* m_pBag;
+    GolfClub m_club;
 };

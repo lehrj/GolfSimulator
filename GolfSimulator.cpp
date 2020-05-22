@@ -65,7 +65,6 @@ int main()
                     if (isInputTrue == true)
                     {
                         pSwing->InputSwingValuesBasic();
-                        pSwing->PrintSwingInputData();
                         isInputValid = false; // allow users to edit their inputs
                     }   
                 }
