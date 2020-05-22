@@ -159,9 +159,7 @@ void GolfBall::PrintLandingData(Vector4d aLandingData, double aMaxY)
     printf("============================================================================================\n");
 }
 
-//*************************************************************
 //  This method loads the right-hand sides for the projectile ODEs
-//*************************************************************
 void GolfBall::ProjectileRightHandSide(struct SpinProjectile *pBall,
     double *q, double *deltaQ, double ds,
     double qScale, double *dq)

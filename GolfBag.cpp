@@ -14,7 +14,7 @@ void GolfBag::BuildBag()
 {
     m_bag.clear();
     m_bag.resize(m_bagSize);
-    // Club data modeled off of Ping G400 series driver, woods, and hybrid, G irons, and Karsten TR B60 putter, along with best guesses to fill in data gaps
+    // Club data modeled off of Ping G400 series driver and woods, G irons, and Karsten TR B60 putter, along with best guesses to fill in data gaps
     int i = 0;
     m_bag[i].clubName = "Driver";
     m_bag[i].clubAngle = 10.0;
@@ -41,16 +41,6 @@ void GolfBag::BuildBag()
     m_bag[i].clubBalancePoint = 0.75;
     m_bag[i].clubCoR = 0.78;
     m_bag[i].clubLength = 1.0668;
-    m_bag[i].clubMass = 0.4;
-    m_bag[i].clubMassMoI = 0.08;
-    m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
-    ++i;
-
-    m_bag[i].clubName = "3 Hybrid";
-    m_bag[i].clubAngle = 19.0;
-    m_bag[i].clubBalancePoint = 0.75;
-    m_bag[i].clubCoR = 0.78;
-    m_bag[i].clubLength = 1.02235;
     m_bag[i].clubMass = 0.4;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
@@ -145,7 +135,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
-    /*
+    
     m_bag[i].clubName = "LW";
     m_bag[i].clubAngle = 58.0;
     m_bag[i].clubBalancePoint = 0.75;
@@ -154,8 +144,9 @@ void GolfBag::BuildBag()
     m_bag[i].clubMass = 0.45;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
-    ++i
+    ++i;
     
+    /*
     m_bag[i].clubName = "Putter";
     m_bag[i].clubAngle = 3.0;
     m_bag[i].clubBalancePoint = 0.75;
@@ -166,6 +157,7 @@ void GolfBag::BuildBag()
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
     ++i;
     */
+    
     m_bag[i].clubName = "Default";
     m_bag[i].clubAngle = 25.0;
     m_bag[i].clubBalancePoint = 0.75;
@@ -174,15 +166,15 @@ void GolfBag::BuildBag()
     m_bag[i].clubMass = 0.4;
     m_bag[i].clubMassMoI = 0.08;
     m_bag[i].clubFirstMoment = m_bag[i].clubMass * m_bag[i].clubLength * m_bag[i].clubBalancePoint;
+    
 }
 
 void GolfBag::PrintClubList()
 {
     printf("======================================== Club List =========================================\n");
-    
     for (int i = 0; i < m_bagSize; ++i)
     {
-        std::cout << " " << i << ") " << m_bag[i].clubName << std::endl;
+        std::cout << " " << i+1 << ") " << m_bag[i].clubName << std::endl; // Add 1 to index for impoved visual display and so index matches up with iron numbers
     }
     printf("============================================================================================\n");
 }

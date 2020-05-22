@@ -531,6 +531,7 @@ void GolfSwing::ReadInSwingValues()
     }
 }
 
+// Select club from GolfBag class and update member variables
 void GolfSwing::SelectClub()
 {
     m_pBag->PrintClubList();
@@ -541,6 +542,7 @@ void GolfSwing::SelectClub()
         int input;
         printf("Please Select Club by Number : ");
         std::cin >> input;
+        --input; // undoes offset input index to improve visual of GolfBag print
         if (input >= 0 && input < m_pBag->GetClubCount())
         {
             isInputValid = true;

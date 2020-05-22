@@ -26,7 +26,6 @@ public:
     void PrintClubList();
 
 private:
-    const int m_bagSize = 14;
     std::vector<GolfClub> m_bag;
-
+    const int m_bagSize = 14;
 };

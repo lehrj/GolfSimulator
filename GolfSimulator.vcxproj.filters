@@ -33,9 +33,6 @@
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GolfClub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GolfBag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,9 +51,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GolfClub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GolfBag.h">

@@ -57,6 +57,7 @@ private:
     const double m_spinRateDecay = 0.04; // Rate at which the spinrate slows over time, using value from Trackman launch monitors of 4% per second
     float m_timeStep;
     
+    // test variables for adding planned graphical display of golf shot arc
     std::vector<double> m_xVals;
     std::vector<double> m_yVals;
 };

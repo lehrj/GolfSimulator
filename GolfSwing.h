@@ -38,6 +38,9 @@ public:
     void UpdateClubData();
 
 private:
+    GolfBag* m_pBag;
+    GolfClub m_club;
+
     double m_alpha; // Angle swept by arm rod from initial backswing position in radians
     double m_alpha_dot;
     double m_alpha_dotdot;
@@ -89,7 +92,4 @@ private:
     const double m_maxQalpha = 100.0;
     const double m_minQbeta = -0.01;
     const double m_maxQbeta = 100;
-
-    GolfBag* m_pBag;
-    GolfClub m_club;
 };
