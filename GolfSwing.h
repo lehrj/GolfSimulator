@@ -54,13 +54,13 @@ private:
     double m_beta; // Wrist cock angle in radians 120.0 in radians
     double m_beta_dot;
     double m_beta_dotdot;
-    double m_clubAngle;
-    double m_clubBalancePoint;
-    double m_clubCoR; // club face coefficiant of restitution, aka club spring face, current USGA rules limit this to .830 in tournemnt play
-    double m_clubFirstMoment; // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m
-    double m_clubLength; // length of club in m
-    double m_clubMass;
-    double m_clubMassMoI; // Mass moment of inertia of the rod representing the club in kg m^2
+    //double m_clubAngle;
+    //double m_clubBalancePoint;
+    //double m_clubCoR; // club face coefficiant of restitution, aka club spring face, current USGA rules limit this to .830 in tournemnt play
+    //double m_clubFirstMoment; // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m
+    //double m_clubLength; // length of club in m
+    //double m_clubMass;
+    //double m_clubMassMoI; // Mass moment of inertia of the rod representing the club in kg m^2
     double m_gamma; // 135.0 degrees in radians
     double m_gravity; // Gravity's acceleration m/s^2
     double m_Qalpha; // Torque applied at the shoulder to the arm rod in N m
