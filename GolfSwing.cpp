@@ -81,9 +81,9 @@ Vector4d GolfSwing::CalculateLaunchVector(void)
         m_beta = b + m_beta_dot * dt;
         m_theta = m_gamma - m_alpha;
 
-        Vc2 = (m_armLength * m_armLength + m_club.clubLength * m_club.clubLength + 2 * m_armLength * m_club.clubLength * cos(m_beta))
-            * (m_alpha_dot * m_alpha_dot) + m_club.clubLength * m_club.clubLength * m_beta_dot * m_beta_dot
-            - 2 * (m_club.clubLength * m_club.clubLength + m_armLength * m_club.clubLength * cos(m_beta)) * m_alpha_dot * m_beta_dot;  // Jorgensen equation
+        Vc2 = (m_armLength * m_armLength + m_club.length * m_club.length + 2 * m_armLength * m_club.length * cos(m_beta))
+            * (m_alpha_dot * m_alpha_dot) + m_club.length * m_club.length * m_beta_dot * m_beta_dot
+            - 2 * (m_club.length * m_club.length + m_armLength * m_club.length * cos(m_beta)) * m_alpha_dot * m_beta_dot;  // Jorgensen equation
 
         Vc = sqrt(Vc2);
 
@@ -96,34 +96,34 @@ Vector4d GolfSwing::CalculateLaunchVector(void)
 
                 velocityCapture = Vc;
                 isVcFound = true;
-                launchAngle = m_club.clubAngle - Utility::ToDegrees(phi);
+                launchAngle = m_club.angle - Utility::ToDegrees(phi);
             }
         }
     }
     std::cout << "Capture velocity = " << velocityCapture << "\nLaunch angle = " << launchAngle << std::endl;
 
-    Vector4d launchVector{ velocityCapture, launchAngle, m_club.clubMass, m_club.clubCoR };
+    Vector4d launchVector{ velocityCapture, launchAngle, m_club.mass, m_club.coefficiantOfRestitution };
     return launchVector;
 }
 
 double GolfSwing::ComputeAlphaDotDot(void)
 {
-    double A = (m_armMassMoI + m_club.clubMassMoI + m_club.clubMass * m_armLength * m_armLength + 2 * m_armLength * m_club.clubFirstMoment * cos(m_beta));
-    double B = -(m_club.clubMassMoI + m_armLength * m_club.clubFirstMoment * cos(m_beta));
-    double F = m_Qalpha - (m_beta_dot * m_beta_dot - 2 * m_alpha_dot * m_beta_dot) * m_armLength * m_club.clubFirstMoment * sin(m_beta) + m_club.clubFirstMoment
-        * (m_gravity * sin(m_theta + m_beta) - m_shoulderHorizAccel * cos(m_theta + m_beta)) + (m_armFirstMoment + m_club.clubMass * m_armLength)
+    double A = (m_armMassMoI + m_club.massMoI + m_club.mass * m_armLength * m_armLength + 2 * m_armLength * m_club.firstMoment * cos(m_beta));
+    double B = -(m_club.massMoI + m_armLength * m_club.firstMoment * cos(m_beta));
+    double F = m_Qalpha - (m_beta_dot * m_beta_dot - 2 * m_alpha_dot * m_beta_dot) * m_armLength * m_club.firstMoment * sin(m_beta) + m_club.firstMoment
+        * (m_gravity * sin(m_theta + m_beta) - m_shoulderHorizAccel * cos(m_theta + m_beta)) + (m_armFirstMoment + m_club.mass * m_armLength)
         * (m_gravity * sin(m_theta) - m_shoulderHorizAccel * cos(m_theta));
-    double D = m_club.clubMassMoI;
-    double G = m_Qbeta - m_alpha_dot * m_alpha_dot * m_armLength * m_club.clubFirstMoment * sin(m_beta) - m_club.clubFirstMoment
+    double D = m_club.massMoI;
+    double G = m_Qbeta - m_alpha_dot * m_alpha_dot * m_armLength * m_club.firstMoment * sin(m_beta) - m_club.firstMoment
         * (m_gravity * sin(m_theta + m_beta) - m_shoulderHorizAccel * cos(m_theta + m_beta));
     return (F - (B * G / D)) / (A - (B * B / D));
 }
 
 double GolfSwing::ComputeBetaDotDot(void)
 {
-    double C = -(m_club.clubMassMoI + m_armLength * m_club.clubFirstMoment * cos(m_beta));
-    double D = m_club.clubMassMoI;
-    double G = m_Qbeta - m_alpha_dot * m_alpha_dot * m_armLength * m_club.clubFirstMoment * sin(m_beta) - m_club.clubFirstMoment
+    double C = -(m_club.massMoI + m_armLength * m_club.firstMoment * cos(m_beta));
+    double D = m_club.massMoI;
+    double G = m_Qbeta - m_alpha_dot * m_alpha_dot * m_armLength * m_club.firstMoment * sin(m_beta) - m_club.firstMoment
         * (m_gravity * sin(m_theta + m_beta) - m_shoulderHorizAccel * cos(m_theta + m_beta));
     return (G - C * m_alpha_dotdot) / D;
 }
@@ -384,9 +384,9 @@ void GolfSwing::PrintSwingInputData()
     printf("======================================= Swing Values =======================================\n");
     printf(" Arm Length                                        : %g m \n", m_armLength);  
     printf(" Ball Placement Angle                              : %g degrees \n", m_ballPlacementAngle);
-    printf(" Club Face Angle                                   : %g degrees\n", m_club.clubAngle);
-    printf(" Club Length                                       : %g m \n", m_club.clubLength);
-    printf(" Club Mass                                         : %g kg \n", m_club.clubMass);
+    printf(" Club Face Angle                                   : %g degrees\n", m_club.angle);
+    printf(" Club Length                                       : %g m \n", m_club.length);
+    printf(" Club Mass                                         : %g kg \n", m_club.mass);
     printf(" Swing Power                                       : %g percent \n", m_backSwingPercentage);
     printf("============================================================================================\n");
 }
@@ -401,7 +401,7 @@ void GolfSwing::PrintSwingMechanics(const double aClubVelocity, const double aTi
     printf(" Beta (wrist cock angle                                       : %g degrees \n", Utility::ToDegrees(m_beta));
     printf(" Phi (theta + beta)                                           : %g degrees \n", phiInDegrees);
     printf(" Club Head Velocity                                           : %g m/s \n", aClubVelocity);
-    printf(" Club Face Angle at Moment                                    : %g degrees \n", m_club.clubAngle - phiInDegrees);
+    printf(" Club Face Angle at Moment                                    : %g degrees \n", m_club.angle - phiInDegrees);
     printf("============================================================================================\n");
 }
 
@@ -578,22 +578,22 @@ void GolfSwing::SetBeta(double aBeta)
 
 void GolfSwing::SetClubAngle(double aAngle)
 {
-    m_club.clubAngle = aAngle;
+    m_club.angle = aAngle;
 }
 
 void GolfSwing::SetClubCoR(double aCoR)
 {
-    m_club.clubCoR = aCoR;
+    m_club.coefficiantOfRestitution = aCoR;
 }
 
 void GolfSwing::SetClubLength(double aLength)
 {
-    m_club.clubLength = aLength;
+    m_club.length = aLength;
 }
 
 void GolfSwing::SetClubMass(double aMass)
 {
-    m_club.clubMass = aMass;
+    m_club.mass = aMass;
 }
 
 void GolfSwing::SetDefaultSwingValues(double aGravity)
@@ -620,18 +620,18 @@ void GolfSwing::SetDefaultSwingValues(double aGravity)
     m_beta = Utility::ToRadians(120.0); // Wrist cock angle in radians
     m_beta_dot = 0.0;
     m_beta_dotdot = 0.0;
-    m_club.clubAngle = 25.0;
-    m_club.clubBalancePoint = 0.75;
-    m_club.clubCoR = 0.78; // club face coefficiant of restitution, aka club spring face, current USGA rules limit this to .830 in tournemnt play
-    m_club.clubLength = 1.1; // length of club in m
-    m_club.clubMass = 0.4;
-    m_club.clubMassMoI = 0.08; // Mass moment of inertia of the rod representing the club in kg m^2
+    m_club.angle = 25.0;
+    m_club.balancePoint = 0.75;
+    m_club.coefficiantOfRestitution = 0.78; // club face coefficiant of restitution, aka club spring face, current USGA rules limit this to .830 in tournemnt play
+    m_club.length = 1.1; // length of club in m
+    m_club.mass = 0.4;
+    m_club.massMoI = 0.08; // Mass moment of inertia of the rod representing the club in kg m^2
     m_Qalpha = 100; // Torque applied at the shoulder to the arm rod in N m
     m_Qbeta = -10; // Torque applied at the wrist joint to the club rod in N m
 
     // dependant variables 
     m_armFirstMoment = (m_armMass * m_armLength * m_armBalancePoint); // First moment of the arm rod about the shoulder axis kg m
-    m_club.clubFirstMoment = (m_club.clubMass * m_club.clubLength * m_club.clubBalancePoint); // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m
+    m_club.firstMoment = (m_club.mass * m_club.length * m_club.balancePoint); // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m
     m_shoulderHorizAccel = 0.1 * m_gravity; // Horizontal acceleration of the shoulder in  m/s^2
     m_gamma = Utility::ToRadians(135.0);
     m_theta = m_gamma - m_alpha;  // Angle between arm rod and vertical axis in radians  
@@ -665,7 +665,7 @@ void GolfSwing::UpdateClubData()
 
 void GolfSwing::UpdateGolfSwingValues()
 {
-    m_club.clubFirstMoment = m_club.clubMass * m_club.clubLength * m_club.clubBalancePoint; // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m
+    m_club.firstMoment = m_club.mass * m_club.length * m_club.balancePoint; // First moment of the rod representing the club about the wrist axis (where the club rod connects to the arm rod) in kg m
     m_armFirstMoment = m_armMass * m_armLength * m_armBalancePoint; // First moment of the arm rod about the shoulder axis kg m
     double swingFactor = m_backSwingPercentage * 0.01;
     m_beta = m_beta * swingFactor;
